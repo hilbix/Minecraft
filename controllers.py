@@ -14,6 +14,7 @@ import random
 
 # Third-party packages
 import threading
+import pyglet
 from pyglet.gl import *
 from pyglet import image
 
