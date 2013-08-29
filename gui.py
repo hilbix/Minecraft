@@ -1206,7 +1206,7 @@ def resize_button_image(image, old_width, new_width):
 
 @G.initializer
 def _init(M):
-    M.button_image, button_highlighted, button_disabled = init_button_image()
+    M.button_image, M.button_highlighted, M.button_disabled = init_button_image()
     M.background_image = load_image('resources', 'textures', 'main_menu_background.png')
     M.backdrop_images = []
     M.rnd_backdrops = ('main_menu_background.png', 'main_menu_background_2.png', 'main_menu_background_3.png',
@@ -1215,5 +1215,5 @@ def _init(M):
     for backdrop in M.rnd_backdrops:
         M.backdrop_images.append(load_image('resources', 'textures', backdrop))
 
-    M.backdrop = random.choice(backdrop_images)
+    M.backdrop = random.choice(M.backdrop_images)
 

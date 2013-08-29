@@ -11,13 +11,13 @@ import random
 
 # Third-party packages
 from perlin import SimplexNoise
-from noise import *
+import noise as S
 
 # Modules from this project
-from blocks import *
+import blocks as B
 from utils import FastRandom
 from biome import BiomeGenerator
-from nature import *
+import nature as N
 import globals as G
 
 

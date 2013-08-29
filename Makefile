@@ -11,3 +11,12 @@ clean:
 debian:
 	sudo apt-get install python-pyglet python-imaging
 
+server:
+	python server.py
+
+run:
+	unset PYGLET_SHADOW_WINDOW; ./main.py
+
+test:
+	export PYGLET_SHADOW_WINDOW=0; ./main.py
+	

@@ -32,8 +32,14 @@ class Window(pyglet.window.Window):
         kwargs.update(
             caption=G.APP_NAME,
         )
+
+#	G.delayed_inits()
+
         super(Window, self).__init__(
             G.WINDOW_WIDTH, G.WINDOW_HEIGHT, **kwargs)
+
+	G.delayed_inits()
+
         self.exclusive = False
         self.reticle = None
         self.controller = None

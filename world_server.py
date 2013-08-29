@@ -10,21 +10,22 @@ import warnings
 
 # Modules from this project
 import datetime
-from blocks import *
 from savingsystem import sector_to_blockpos
 from utils import FACES, FACES_WITH_DIAGONALS, normalize_float, normalize, sectorize, TextureGroup
 import globals as G
-from nature import TREES, TREE_BLOCKS
+import blocks as B
+import nature as N
 import terrain
 
 
 class WorldServer(dict):
-    spreading_mutations = {
-        dirt_block: grass_block,
-    }
+    spreading_mutations = {}
+
     def __init__(self, server):
+	self.spreading_mutations[B.dirt_block] = B.grass_block
         super(WorldServer, self).__init__()
         import savingsystem #This module doesn't like being imported at modulescope
+	# XXX TODO XXX Is this still the case?
         self.savingsystem = savingsystem
         if not os.path.lexists(os.path.join(G.game_dir, "world", "players")):
             os.makedirs(os.path.join(G.game_dir, "world", "players"))
@@ -228,7 +229,7 @@ class WorldServer(dict):
             return
 
         # Avoids a tree from touching another.
-        if vegetation_class in TREES and self.has_neighbors(position, is_in=TREE_BLOCKS, diagonals=True):
+        if vegetation_class in N.TREES and self.has_neighbors(position, is_in=N.TREE_BLOCKS, diagonals=True):
             return
 
         x, y, z = position

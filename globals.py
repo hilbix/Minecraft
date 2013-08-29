@@ -396,6 +396,6 @@ def delayed_inits():
                 if gl.current_context._workaround_unpack_row_length:
             AttributeError: 'NoneType' object has no attribute '_workaround_unpack_row_length'
     '''
-    for i in initalizers:
+    for i in __initializers__:
         i()
 

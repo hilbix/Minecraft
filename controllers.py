@@ -18,7 +18,7 @@ from pyglet.gl import *
 from pyglet import image
 
 # Modules from this project
-from blocks import *
+from blocks import Block
 from cameras import Camera3D
 from client import PacketReceiver
 import globals as G
