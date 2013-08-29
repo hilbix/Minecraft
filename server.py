@@ -249,6 +249,8 @@ if __name__ == '__main__':
 
     load_modules(server=True)
 
+    G.delayed_inits()
+
     server, server_thread = start_server()
     print('Server loop running in thread: ' + server_thread.name)
 
