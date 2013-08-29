@@ -7,7 +7,7 @@
 # Nothing for now...
 
 # Modules from this project
-from blocks import BlockID, dirt_block, farm_block, grass_block, wheat_crop_block, potato_block, carrot_block
+import blocks as B
 import globals as G
 
 
@@ -29,8 +29,8 @@ def get_item(item_or_block_id):
     Get the Block or Item with the specified id, which must either be an instance
     of BlockID, or a string format BlockID knows how to parse.
     """
-    if not isinstance(item_or_block_id, BlockID):
-        item_or_block_id = BlockID(str(item_or_block_id))
+    if not isinstance(item_or_block_id, B.BlockID):
+        item_or_block_id = B.BlockID(str(item_or_block_id))
     if item_or_block_id.main >= G.ITEM_ID_MIN:
         return G.ITEMS_DIR[item_or_block_id]
     else:
@@ -51,7 +51,7 @@ class Item(object):
     smelting_time = -1
 
     def __init__(self):
-        self.id = BlockID(self.id, 0, self.icon_name)
+        self.id = B.BlockID(self.id, 0, self.icon_name)
         G.ITEMS_DIR[self.id] = self
 
     def on_right_click(self, world, player):
@@ -64,7 +64,7 @@ class ItemStack(object):
     def __init__(self, type = 0, amount = 1, durability = -1):
         if amount < 1:
             amount = 1
-        self.type = BlockID(type, 0, get_item(type).icon_name)
+        self.type = B.BlockID(type, 0, get_item(type).icon_name)
         self.amount = amount
         if durability == -1:
             self.durability = -1 if not hasattr(self.get_object(), 'durability') else self.get_object().durability
@@ -201,32 +201,41 @@ class SeedItem(Item):
                 return True # remove from inventory
 
 class WheatSeedItem(SeedItem):
-    block_type = wheat_crop_block
-    soil_type = farm_block
     id = 295
     icon_name = "seeds"
     max_stack_size = 64
     name = "Seed"
 
+    def __init__(self):
+	self.block_type = B.wheat_crop_block
+        self.soil_type = B.farm_block
+        super(WheatSeedItem, self).__init__()
+
 class PotatoItem(SeedItem):
-    block_type = potato_block
-    soil_type = farm_block
     id = 392
     icon_name = "potato"
     max_stack_size = 64
     name = "Potato"
     regenerated_health = 1
 
+    def __init__(self):
+        block_type = B.potato_block
+        self.soil_type = B.farm_block
+        super(PotatoItem, self).__init__()
+
 # class CookedPotatoItem(Item):
 
 class CarrotItem(SeedItem):
-    block_type = carrot_block
-    soil_type = farm_block
     id = 391
     icon_name = "carrots"
     max_stack_size = 64
     name = "Carrot"
     regenerated_health = 1
+
+    def __init__(self):
+        self.block_type = B.carrot_block
+        self.soil_type = B.farm_block
+        super(CarrotItem, self).__init__()
 
 class WheatItem(Item):
     id = 296
@@ -391,8 +400,8 @@ class Hoe(Tool):
     def on_right_click(self, world, player):
         block, previous = world.hit_test(player.position, player.get_sight_vector(), player.attack_range)
         if previous:
-            if world[block].id == dirt_block.id or world[block].id == grass_block.id:
-                world.add_block(block, farm_block)
+            if world[block].id == B.dirt_block.id or world[block].id == B.grass_block.id:
+                world.add_block(block, B.farm_block)
 
 class WoodHoe(Hoe):
     material = G.WOODEN_TOOL
@@ -510,49 +519,52 @@ class IronBoots(Armor):
     #id = 309.1
     #name = "Emerald Boots"
 
-coal_item = CoalItem()
-diamond_item = DiamondItem()
-stick_item = StickItem()
-iron_ingot_item = IronIngotItem()
-gold_ingot_item = GoldIngotItem()
-flint_item = FlintItem()
-wood_axe = WoodAxe()
-stone_axe = StoneAxe()
-iron_axe = IronAxe()
-diamond_axe = DiamondAxe()
-golden_axe = GoldenAxe()
-wood_pickaxe = WoodPickaxe()
-stone_pickaxe = StonePickaxe()
-iron_pickaxe = IronPickaxe()
-diamond_pickaxe = DiamondPickaxe()
-golden_pickaxe = GoldenPickaxe()
-wood_shovel = WoodShovel()
-stone_shovel = StoneShovel()
-iron_shovel = IronShovel()
-diamond_shovel = DiamondShovel()
-golden_shovel = GoldenShovel()
-wood_hoe = WoodHoe()
-stone_hoe = StoneHoe()
-iron_hoe = IronHoe()
-diamond_hoe = DiamondHoe()
-golden_hoe = GoldenHoe()
-iron_helmet = IronHelmet()
-iron_chestplate = IronChestplate()
-iron_leggings = IronLeggings()
-iron_boots = IronBoots()
-#emerald_helmet = EmeraldHelmet()
-#emerald_chestplace = EmeraldChestplate()
-#emerald_leggings = EmeraldLeggings()
-#emerald_boots = EmeraldBoots()
-yellowdye_item = YellowDyeItem()
-ladder_item = LadderItem()
-ladder_item = LadderItem()
-reddye_item = RedDyeItem()
-sugar_item = SugarItem()
-paper_item = PaperItem()
-wheat_seed_item = WheatSeedItem()
-wheat_item = WheatItem()
-bread_item = BreadItem()
-potato_item = PotatoItem()
-carrot_item = CarrotItem()
-bone_meal_item = BoneMeal()
+@G.initializer
+def _init(M):
+    M.coal_item = CoalItem()
+    M.diamond_item = DiamondItem()
+    M.stick_item = StickItem()
+    M.iron_ingot_item = IronIngotItem()
+    M.gold_ingot_item = GoldIngotItem()
+    M.flint_item = FlintItem()
+    M.wood_axe = WoodAxe()
+    M.stone_axe = StoneAxe()
+    M.iron_axe = IronAxe()
+    M.diamond_axe = DiamondAxe()
+    M.golden_axe = GoldenAxe()
+    M.wood_pickaxe = WoodPickaxe()
+    M.stone_pickaxe = StonePickaxe()
+    M.iron_pickaxe = IronPickaxe()
+    M.diamond_pickaxe = DiamondPickaxe()
+    M.golden_pickaxe = GoldenPickaxe()
+    M.wood_shovel = WoodShovel()
+    M.stone_shovel = StoneShovel()
+    M.iron_shovel = IronShovel()
+    M.diamond_shovel = DiamondShovel()
+    M.golden_shovel = GoldenShovel()
+    M.wood_hoe = WoodHoe()
+    M.stone_hoe = StoneHoe()
+    M.iron_hoe = IronHoe()
+    M.diamond_hoe = DiamondHoe()
+    M.golden_hoe = GoldenHoe()
+    M.iron_helmet = IronHelmet()
+    M.iron_chestplate = IronChestplate()
+    M.iron_leggings = IronLeggings()
+    M.iron_boots = IronBoots()
+    #M.emerald_helmet = EmeraldHelmet()
+    #M.emerald_chestplace = EmeraldChestplate()
+    #M.emerald_leggings = EmeraldLeggings()
+    #M.emerald_boots = EmeraldBoots()
+    M.yellowdye_item = YellowDyeItem()
+    M.ladder_item = LadderItem()
+    M.ladder_item = LadderItem()
+    M.reddye_item = RedDyeItem()
+    M.sugar_item = SugarItem()
+    M.paper_item = PaperItem()
+    M.wheat_seed_item = WheatSeedItem()
+    M.wheat_item = WheatItem()
+    M.bread_item = BreadItem()
+    M.potato_item = PotatoItem()
+    M.carrot_item = CarrotItem()
+    M.bone_meal_item = BoneMeal()
+

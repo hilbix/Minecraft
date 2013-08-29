@@ -17,9 +17,7 @@ from pyglet.gl import *
 
 # Modules from this project
 import globals as G
-from gui import frame_image, Rectangle, backdrop, Button, button_image, \
-    button_highlighted, ToggleButton, TextWidget, ScrollbarWidget, \
-    button_disabled, resize_button_image
+import gui as UI
 from textures import TexturePackList
 from utils import image_sprite, load_image
 
@@ -161,37 +159,37 @@ class MenuView(View):
 
         self.layout = Layout(0, 0)
 
-        image = frame_image
-        self.frame_rect = Rectangle(0, 0, image.width, image.height)
+        image = UI.frame_image
+        self.frame_rect = UI.Rectangle(0, 0, image.width, image.height)
         self.background = G.texture_pack_list.selected_texture_pack.load_texture(['gui', 'background.png'])
         self.background = self.background.get_texture()
         self.background.height = 64
         self.background.width = 64
-        self.frame = Rectangle(0, 0, image.width, image.height)
+        self.frame = UI.Rectangle(0, 0, image.width, image.height)
 
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
 
-    def Button(self, x=0, y=0, width=400, height=40, image=button_image, image_highlighted=button_highlighted, caption="Unlabeled", batch=None, group=None, label_group=None, font_name='ChunkFive Roman', on_click=None, enabled=True):
-        button = Button(self, x=x, y=y, width=width, height=height, image=resize_button_image(image, 400, width), image_highlighted=resize_button_image(image_highlighted, 400, width), caption=caption, batch=(batch or self.batch), group=(group or self.group), label_group=(label_group or self.labels_group), font_name=font_name, enabled=enabled)
+    def Button(self, x=0, y=0, width=400, height=40, image=None, image_highlighted=None, caption="Unlabeled", batch=None, group=None, label_group=None, font_name='ChunkFive Roman', on_click=None, enabled=True):
+        button = UI.Button(self, x=x, y=y, width=width, height=height, image=UI.resize_button_image(image or UI.button_image, 400, width), image_highlighted=UI.resize_button_image(image_highlighted or UI.button_highlighted, 400, width), caption=caption, batch=(batch or self.batch), group=(group or self.group), label_group=(label_group or self.labels_group), font_name=font_name, enabled=enabled)
         if on_click:
             button.push_handlers(on_click=on_click)
         return button
 
-    def ToggleButton(self, x=0, y=0, width=400, height=40, image=button_image, image_highlighted=button_highlighted, caption="Unlabeled", batch=None, group=None, label_group=None, font_name='ChunkFive Roman', on_click=None, on_toggle=None, enabled=True):
-        button = ToggleButton(self, x=x, y=y, width=width, height=height, image=resize_button_image(image, 400, width), image_highlighted=resize_button_image(image_highlighted, 400, width), caption=caption, batch=(batch or self.batch), group=(group or self.group), label_group=(label_group or self.labels_group), font_name=font_name, enabled=enabled)
+    def ToggleButton(self, x=0, y=0, width=400, height=40, image=None, image_highlighted=None, caption="Unlabeled", batch=None, group=None, label_group=None, font_name='ChunkFive Roman', on_click=None, on_toggle=None, enabled=True):
+        button = UI.ToggleButton(self, x=x, y=y, width=width, height=height, image=UI.resize_button_image(image or UI.button_image, 400, width), image_highlighted=UI.resize_button_image(image_highlighted or UI.button_highlighted, 400, width), caption=caption, batch=(batch or self.batch), group=(group or self.group), label_group=(label_group or self.labels_group), font_name=font_name, enabled=enabled)
         if on_click:
             button.push_handlers(on_click=on_click)
         if on_toggle:
             button.push_handlers(on_toggle=on_toggle)
         return button
 
-    def Scrollbar(self, x=0, y=0, width=400, height=40, sb_width=40, sb_height=40, style=1, background_image=button_disabled, scrollbar_image=button_image, caption="Test", font_size=12, font_name=G.DEFAULT_FONT, batch=None, group=None, label_group=None, pos=0, on_pos_change=None):
-        sb = ScrollbarWidget(self.controller.window, x=x, y=y, width=width, height=height,
+    def Scrollbar(self, x=0, y=0, width=400, height=40, sb_width=40, sb_height=40, style=1, background_image=None, scrollbar_image=None, caption="Test", font_size=12, font_name=G.DEFAULT_FONT, batch=None, group=None, label_group=None, pos=0, on_pos_change=None):
+        sb = UI.ScrollbarWidget(self.controller.window, x=x, y=y, width=width, height=height,
                  sb_width=sb_width, sb_height=sb_height,
                  style=style, 
-                 background_image=resize_button_image(background_image, 400, width),
-                 scrollbar_image=resize_button_image(scrollbar_image, 400, sb_width), 
+                 background_image=UI.resize_button_image(background_image or UI.button_disabled, 400, width),
+                 scrollbar_image=UI.resize_button_image(scrollbar_image or UI.button_image, 400, sb_width), 
                  caption=caption, font_size=font_size, font_name=font_name,
                  batch=(batch or self.batch), group=(group or self.group), label_group=(label_group or self.labels_group),
                  pos=pos, on_pos_change=on_pos_change)
@@ -232,12 +230,12 @@ class MainMenuView(MenuView):
         self.group = pyglet.graphics.OrderedGroup(3)
         self.labels_group = pyglet.graphics.OrderedGroup(4)
 
-        image = frame_image
+        image = UI.frame_image
         self.layout = VerticalLayout(0, 0)
         # Custom background
         self.background = None
-        self.frame_rect = Rectangle(0, 0, self.controller.window.get_size()[0], image.height)
-        self.frame = Rectangle(0, 0, self.controller.window.get_size()[0], image.height)
+        self.frame_rect = UI.Rectangle(0, 0, self.controller.window.get_size()[0], image.height)
+        self.frame = UI.Rectangle(0, 0, self.controller.window.get_size()[0], image.height)
 
         width, height = self.controller.window.width, self.controller.window.height
 
@@ -435,7 +433,7 @@ class OptionsView(MenuView):
 
         textures_enabled = len(G.texture_pack_list.available_texture_packs) > 1
 
-        self.text_input = TextWidget(self.controller.window, G.USERNAME, 0, 0, width=160, height=20, font_name='Arial', batch=self.batch)
+        self.text_input = UI.TextWidget(self.controller.window, G.USERNAME, 0, 0, width=160, height=20, font_name='Arial', batch=self.batch)
         self.controller.window.push_handlers(self.text_input)
         self.text_input.focus()
         self.text_input.caret.mark = len(self.text_input.document.text)  # Don't select the whole text
@@ -518,7 +516,7 @@ class ControlsView(MenuView):
     def on_key_press(self, symbol, modifiers):
         active_button = None
         for button in self.buttons:
-            if isinstance(button, ToggleButton) and button.toggled:
+            if isinstance(button, UI.ToggleButton) and button.toggled:
                 active_button = button
                 break
 
@@ -587,7 +585,7 @@ class MultiplayerView(MenuView):
 
         self.layout = VerticalLayout(0, 0)
 
-        self.text_input = TextWidget(self.controller.window, G.IP_ADDRESS, 0, 0, width=160, height=20, font_name='Arial', batch=self.batch)
+        self.text_input = UI.TextWidget(self.controller.window, G.IP_ADDRESS, 0, 0, width=160, height=20, font_name='Arial', batch=self.batch)
         self.controller.window.push_handlers(self.text_input)
         self.text_input.focus()
         def text_input_callback(symbol, modifier):

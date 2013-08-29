@@ -11,7 +11,7 @@ import pyglet
 from pyglet.gl import *
 
 # Modules from this project
-from blocks import *
+import blocks as B
 from utils import FACES, FACES_WITH_DIAGONALS, normalize_float, normalize, sectorize, TextureGroup
 import globals as G
 from client import PacketReceiver
@@ -25,12 +25,13 @@ __all__ = (
 
 #The Client's world
 class World(dict):
-    spreading_mutations = {
-        dirt_block: grass_block,
-    }
+    spreading_mutations = {}
 
     def __init__(self):
+	self.spreading_mutations[B.dirt_block] = B.grass_block
+
         super(World, self).__init__()
+
         self.batch = pyglet.graphics.Batch()
         self.transparency_batch = pyglet.graphics.Batch()
         self.group = TextureGroup(os.path.join('resources', 'textures', 'texture.png'))

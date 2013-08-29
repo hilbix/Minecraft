@@ -8,11 +8,10 @@ import random
 # Nothing for now...
 
 # Modules from this project
-from blocks import *
 from entity import Entity
 import globals as G
+# import blocks as B
 from inventory import Inventory
-from items import stick_item
 from model import PlayerModel
 from utils import normalize, FACES
 
@@ -45,7 +44,7 @@ class Player(Entity):
         self.local_player = local_player
 
         # for debug
-        #initial_items = [cake_block, torch_block]
+        #initial_items = [B.cake_block, B.torch_block]
         #for item in initial_items:
         #        self.inventory.add_item(item.id, item.max_stack_size)
 

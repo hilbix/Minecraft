@@ -11,9 +11,9 @@ import time
 # Nothing for now...
 
 # Modules from this project
-from blocks import BlockID
 from debug import performance_info
 import globals as G
+# import blocks as B
 from player import Player
 
 
@@ -31,7 +31,10 @@ structvecBB = struct.Struct("hhhBB")
 
 null2 = struct.pack("xx") #Two \0's
 null1024 = null2*512      #1024 \0's
-air = G.BLOCKS_DIR[(0,0)]
+
+@G.initializer
+def _init(M):
+    M.air = G.BLOCKS_DIR[(0,0)]
 
 def sector_to_filename(secpos):
     x,y,z = secpos
@@ -57,7 +60,7 @@ def save_sector_to_string(blocks, secpos):
                 blk = blocks.get((x,y,z), air).id
                 if blk is not air:
                     #if isinstance(blk, int): # When does this occur? Its expensive and I don't see it triggering
-                    #    blk = BlockID(blk)
+                    #    blk = B.BlockID(blk)
                     fstr += structuchar2.pack(blk.main, blk.sub)
                 else:
                     fstr += null2

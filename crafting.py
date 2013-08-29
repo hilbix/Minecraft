@@ -7,9 +7,9 @@
 # Nothing for now...
 
 # Modules from this project
-from blocks import *
+import blocks as B
 import globals as G
-from items import *
+import items as I
 
 
 __all__ = (
@@ -144,126 +144,129 @@ class SmeltingRecipes(object):
         return None
 
 
-G.recipes = Recipes()
-G.smelting_recipes = SmeltingRecipes()
-# stone items
-G.recipes.add_recipe(["##", "##"], {'#': stone_block},
-                   ItemStack(stonebrick_block.id, amount=4))
-G.recipes.add_recipe(["###", "# #", "###"], {'#': cobble_block},
-                   ItemStack(furnace_block.id, amount=1))
-G.recipes.add_recipe(["##", "##"], {'#': quartz_block},
-                   ItemStack(quartzbrick_block.id, amount=4))
-G.recipes.add_recipe(["#", "#"], {'#': quartz_block},
-                   ItemStack(quartzcolumn_block.id, amount=2))
-G.recipes.add_recipe(["#", "#", "#"], {'#': quartz_block},
-                   ItemStack(quartzcolumn_block.id, amount=3))
-G.recipes.add_recipe(["   ", "   ", "###"], {'#': quartz_block},
-                   ItemStack(quartzchiseled_block.id, amount=3))
+@G.initializer
+def _init(M):
+    G.recipes = Recipes()
+    G.smelting_recipes = SmeltingRecipes()
+    # stone items
+    G.recipes.add_recipe(["##", "##"], {'#': stone_block},
+                       ItemStack(stonebrick_block.id, amount=4))
+    G.recipes.add_recipe(["###", "# #", "###"], {'#': cobble_block},
+                       ItemStack(furnace_block.id, amount=1))
+    G.recipes.add_recipe(["##", "##"], {'#': quartz_block},
+                       ItemStack(quartzbrick_block.id, amount=4))
+    G.recipes.add_recipe(["#", "#"], {'#': quartz_block},
+                       ItemStack(quartzcolumn_block.id, amount=2))
+    G.recipes.add_recipe(["#", "#", "#"], {'#': quartz_block},
+                       ItemStack(quartzcolumn_block.id, amount=3))
+    G.recipes.add_recipe(["   ", "   ", "###"], {'#': quartz_block},
+                       ItemStack(quartzchiseled_block.id, amount=3))
+    
+    #9 ores to blocks
+    
+    G.recipes.add_recipe(["###", "###", "###"], {'#': iron_ingot_item},
+                       ItemStack(iron_block.id, amount=1))
+    G.recipes.add_recipe(["###", "###", "###"], {'#': gold_ingot_item},
+                       ItemStack(gold_block.id, amount=1))
+    G.recipes.add_recipe(["###", "###", "###"], {'#': diamond_item},
+                       ItemStack(diamond_block.id, amount=1))
+    #  block back to 9 ores
+    G.recipes.add_shapeless_recipe((diamond_block,),
+                        ItemStack(diamond_item.id, amount=9))
+    G.recipes.add_shapeless_recipe((iron_block,),
+                        ItemStack(iron_ingot_item.id, amount=9))
+    G.recipes.add_shapeless_recipe((gold_block,),
+                        ItemStack(gold_ingot_item.id, amount=9))
+    # wood items
+    
+    G.recipes.add_shapeless_recipe((birchwood_block,),
+                        ItemStack(birchwoodplank_block.id, amount=4))
+    G.recipes.add_shapeless_recipe((junglewood_block,),
+                        ItemStack(junglewoodplank_block.id, amount=4))
+    G.recipes.add_shapeless_recipe((oakwood_block,),
+                        ItemStack(oakwoodplank_block.id, amount=4))
+    G.recipes.add_recipe(["#", "#"], {'#': oakwoodplank_block},
+                       ItemStack(stick_item.id, amount=4))
+    G.recipes.add_recipe(["#", "#"], {'#': junglewoodplank_block},
+                       ItemStack(stick_item.id, amount=4))
+    G.recipes.add_recipe(["#", "#"], {'#': oakwoodplank_block},
+                       ItemStack(stick_item.id, amount=4))
+    G.recipes.add_recipe(["#", "#"], {'#': oakwoodplank_block},
+                       ItemStack(stick_item.id, amount=4))
+    G.recipes.add_recipe(["###", "# #", "###"], {'#': birchwoodplank_block},
+                       ItemStack(chest_block.id, amount=1))
+    G.recipes.add_recipe(["###", "# #", "###"], {'#': oakwoodplank_block},
+                       ItemStack(chest_block.id, amount=1))
+    G.recipes.add_recipe(["###", "# #", "###"], {'#': junglewoodplank_block},
+                       ItemStack(chest_block.id, amount=1))
+    
+    G.recipes.add_recipe(["##", "##"], {'#': birchwoodplank_block},
+                       ItemStack(craft_block.id, amount=1))
+    G.recipes.add_recipe(["##", "##"], {'#': oakwoodplank_block},
+                       ItemStack(craft_block.id, amount=1))
+    G.recipes.add_recipe(["##", "##"], {'#': junglewoodplank_block},
+                       ItemStack(craft_block.id, amount=1))
+    G.recipes.add_recipe(["# #", "###", "# #"], {'#': stick_item},
+                               ItemStack(ladder_item.id, amount=4))
+    
+    for material, toolset in [(diamond_item, [diamond_pickaxe, diamond_axe, diamond_shovel, diamond_hoe]),
+                                (cobble_block, [stone_pickaxe, stone_axe, stone_shovel, stone_hoe]),
+                                (iron_ingot_item, [iron_pickaxe, iron_axe, iron_shovel, iron_hoe]),
+                                (gold_ingot_item, [golden_pickaxe, golden_axe, golden_shovel, golden_hoe])]:
+    
+        G.recipes.add_recipe(["###", " @ ", " @ "], {'#': material, '@': stick_item},
+                       ItemStack(toolset[0].id, amount=1))
+        G.recipes.add_recipe(["## ", "#@ ", " @ "], {'#': material, '@': stick_item},
+                       ItemStack(toolset[1].id, amount=1))
+        G.recipes.add_recipe([" # ", " @ ", " @ "], {'#': material, '@': stick_item},
+                        ItemStack(toolset[2].id, amount=1))
+        G.recipes.add_recipe(["## ", " @ ", " @ "], {'#': material, '@': stick_item},
+                       ItemStack(toolset[-1].id, amount=1))
+    
+    # armors
+    for material, armors in [(iron_ingot_item, [iron_helmet, iron_chestplate, iron_leggings, iron_boots])]:
+    
+        G.recipes.add_recipe(["###", "# #"], {'#': material},
+                       ItemStack(armors[0].id, amount=1))
+        G.recipes.add_recipe(["# #", "###", "###"], {'#': material},
+                       ItemStack(armors[1].id, amount=1))
+        G.recipes.add_recipe(["###", "# #", "# #"], {'#': material},
+                        ItemStack(armors[2].id, amount=1))
+        G.recipes.add_recipe(["# #", "# #"], {'#': material},
+                        ItemStack(armors[-1].id, amount=1))
+    
+    #sand items
+    
+    
+    for wood in (birchwoodplank_block, junglewoodplank_block, oakwoodplank_block):
+        G.recipes.add_recipe(["#", "#"], {'#': wood},
+                            ItemStack(stick_item.id, amount=4))
+        G.recipes.add_recipe(["###", "# #", "###"], {'#': wood},
+                            ItemStack(chest_block.id, amount=1))
+        G.recipes.add_recipe(["##", "##"], {'#': wood},
+                            ItemStack(craft_block.id, amount=1))
+        G.recipes.add_recipe(["###", " @ ", " @ "], {'#': wood, '@': stick_item}, ItemStack(wood_pickaxe.id, amount=1))
+        G.recipes.add_recipe(["## ", "#@ ", " @ "], {'#': wood, '@': stick_item}, ItemStack(wood_axe.id, amount=1))
+        G.recipes.add_recipe([" # ", " @ ", " @ "], {'#': wood, '@': stick_item}, ItemStack(wood_shovel.id, amount=1))
+    
+    # sand items
+    
+    G.recipes.add_recipe(["##", "##"], {'#': sand_block},
+                       ItemStack(sandstone_block.id, amount=1))
+    
+    # plants items
+    G.recipes.add_recipe(["#"], {'#': yflowers_block}, ItemStack(yellowdye_item.id, amount=2))
+    G.recipes.add_recipe(["#"], {'#': rose_block}, ItemStack(reddye_item.id, amount=2))
+    G.recipes.add_recipe(["#"], {'#': reed_block}, ItemStack(sugar_item.id, amount=1))
+    G.recipes.add_recipe(["   ","   ", "###"], {'#': reed_block}, ItemStack(paper_item.id, amount=4))
+    G.recipes.add_recipe(["   ","   ", "###"], {'#': wheat_item},
+                       ItemStack(bread_item.id, amount=1))
+    
+    # combined items
+    G.recipes.add_recipe(["#", "@"], {'#': coal_item, '@': stick_item},
+                       ItemStack(torch_block.id, amount=4))
+    
+    
+    G.smelting_recipes.add_recipe(ironore_block, ItemStack(iron_ingot_item.id, amount=1))
+    G.smelting_recipes.add_recipe(cobble_block, ItemStack(stone_block.id, amount=1))
 
-#9 ores to blocks
-
-G.recipes.add_recipe(["###", "###", "###"], {'#': iron_ingot_item},
-                   ItemStack(iron_block.id, amount=1))
-G.recipes.add_recipe(["###", "###", "###"], {'#': gold_ingot_item},
-                   ItemStack(gold_block.id, amount=1))
-G.recipes.add_recipe(["###", "###", "###"], {'#': diamond_item},
-                   ItemStack(diamond_block.id, amount=1))
-#  block back to 9 ores
-G.recipes.add_shapeless_recipe((diamond_block,),
-                    ItemStack(diamond_item.id, amount=9))
-G.recipes.add_shapeless_recipe((iron_block,),
-                    ItemStack(iron_ingot_item.id, amount=9))
-G.recipes.add_shapeless_recipe((gold_block,),
-                    ItemStack(gold_ingot_item.id, amount=9))
-# wood items
-
-G.recipes.add_shapeless_recipe((birchwood_block,),
-                    ItemStack(birchwoodplank_block.id, amount=4))
-G.recipes.add_shapeless_recipe((junglewood_block,),
-                    ItemStack(junglewoodplank_block.id, amount=4))
-G.recipes.add_shapeless_recipe((oakwood_block,),
-                    ItemStack(oakwoodplank_block.id, amount=4))
-G.recipes.add_recipe(["#", "#"], {'#': oakwoodplank_block},
-                   ItemStack(stick_item.id, amount=4))
-G.recipes.add_recipe(["#", "#"], {'#': junglewoodplank_block},
-                   ItemStack(stick_item.id, amount=4))
-G.recipes.add_recipe(["#", "#"], {'#': oakwoodplank_block},
-                   ItemStack(stick_item.id, amount=4))
-G.recipes.add_recipe(["#", "#"], {'#': oakwoodplank_block},
-                   ItemStack(stick_item.id, amount=4))
-G.recipes.add_recipe(["###", "# #", "###"], {'#': birchwoodplank_block},
-                   ItemStack(chest_block.id, amount=1))
-G.recipes.add_recipe(["###", "# #", "###"], {'#': oakwoodplank_block},
-                   ItemStack(chest_block.id, amount=1))
-G.recipes.add_recipe(["###", "# #", "###"], {'#': junglewoodplank_block},
-                   ItemStack(chest_block.id, amount=1))
-
-G.recipes.add_recipe(["##", "##"], {'#': birchwoodplank_block},
-                   ItemStack(craft_block.id, amount=1))
-G.recipes.add_recipe(["##", "##"], {'#': oakwoodplank_block},
-                   ItemStack(craft_block.id, amount=1))
-G.recipes.add_recipe(["##", "##"], {'#': junglewoodplank_block},
-                   ItemStack(craft_block.id, amount=1))
-G.recipes.add_recipe(["# #", "###", "# #"], {'#': stick_item},
-                           ItemStack(ladder_item.id, amount=4))
-
-for material, toolset in [(diamond_item, [diamond_pickaxe, diamond_axe, diamond_shovel, diamond_hoe]),
-                            (cobble_block, [stone_pickaxe, stone_axe, stone_shovel, stone_hoe]),
-                            (iron_ingot_item, [iron_pickaxe, iron_axe, iron_shovel, iron_hoe]),
-                            (gold_ingot_item, [golden_pickaxe, golden_axe, golden_shovel, golden_hoe])]:
-
-    G.recipes.add_recipe(["###", " @ ", " @ "], {'#': material, '@': stick_item},
-                   ItemStack(toolset[0].id, amount=1))
-    G.recipes.add_recipe(["## ", "#@ ", " @ "], {'#': material, '@': stick_item},
-                   ItemStack(toolset[1].id, amount=1))
-    G.recipes.add_recipe([" # ", " @ ", " @ "], {'#': material, '@': stick_item},
-                    ItemStack(toolset[2].id, amount=1))
-    G.recipes.add_recipe(["## ", " @ ", " @ "], {'#': material, '@': stick_item},
-                   ItemStack(toolset[-1].id, amount=1))
-
-# armors
-for material, armors in [(iron_ingot_item, [iron_helmet, iron_chestplate, iron_leggings, iron_boots])]:
-
-    G.recipes.add_recipe(["###", "# #"], {'#': material},
-                   ItemStack(armors[0].id, amount=1))
-    G.recipes.add_recipe(["# #", "###", "###"], {'#': material},
-                   ItemStack(armors[1].id, amount=1))
-    G.recipes.add_recipe(["###", "# #", "# #"], {'#': material},
-                    ItemStack(armors[2].id, amount=1))
-    G.recipes.add_recipe(["# #", "# #"], {'#': material},
-                    ItemStack(armors[-1].id, amount=1))
-
-#sand items
-
-
-for wood in (birchwoodplank_block, junglewoodplank_block, oakwoodplank_block):
-    G.recipes.add_recipe(["#", "#"], {'#': wood},
-                        ItemStack(stick_item.id, amount=4))
-    G.recipes.add_recipe(["###", "# #", "###"], {'#': wood},
-                        ItemStack(chest_block.id, amount=1))
-    G.recipes.add_recipe(["##", "##"], {'#': wood},
-                        ItemStack(craft_block.id, amount=1))
-    G.recipes.add_recipe(["###", " @ ", " @ "], {'#': wood, '@': stick_item}, ItemStack(wood_pickaxe.id, amount=1))
-    G.recipes.add_recipe(["## ", "#@ ", " @ "], {'#': wood, '@': stick_item}, ItemStack(wood_axe.id, amount=1))
-    G.recipes.add_recipe([" # ", " @ ", " @ "], {'#': wood, '@': stick_item}, ItemStack(wood_shovel.id, amount=1))
-
-# sand items
-
-G.recipes.add_recipe(["##", "##"], {'#': sand_block},
-                   ItemStack(sandstone_block.id, amount=1))
-
-# plants items
-G.recipes.add_recipe(["#"], {'#': yflowers_block}, ItemStack(yellowdye_item.id, amount=2))
-G.recipes.add_recipe(["#"], {'#': rose_block}, ItemStack(reddye_item.id, amount=2))
-G.recipes.add_recipe(["#"], {'#': reed_block}, ItemStack(sugar_item.id, amount=1))
-G.recipes.add_recipe(["   ","   ", "###"], {'#': reed_block}, ItemStack(paper_item.id, amount=4))
-G.recipes.add_recipe(["   ","   ", "###"], {'#': wheat_item},
-                   ItemStack(bread_item.id, amount=1))
-
-# combined items
-G.recipes.add_recipe(["#", "@"], {'#': coal_item, '@': stick_item},
-                   ItemStack(torch_block.id, amount=4))
-
-
-G.smelting_recipes.add_recipe(ironore_block, ItemStack(iron_ingot_item.id, amount=1))
-G.smelting_recipes.add_recipe(cobble_block, ItemStack(stone_block.id, amount=1))

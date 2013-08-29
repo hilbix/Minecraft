@@ -13,7 +13,7 @@ from pyglet.window import key
 from pyglet.image.atlas import TextureAtlas
 
 # Modules from this project
-from blocks import air_block
+import blocks as B
 # FIXME: Initialize crafting in a proper way, other than by importing.
 import crafting
 import globals as G
@@ -583,7 +583,7 @@ class InventorySelector(AbstractInventory):
         for j, item in enumerate(items):
             self.slots[i].item = item
             if not item or item.get_object().id > 0:
-                crafting_ingredients[int(floor(j / (2 if self.mode == 0 else 3 if self.mode == 1 else 1)))].append(air_block if not item else item.get_object())
+                crafting_ingredients[int(floor(j / (2 if self.mode == 0 else 3 if self.mode == 1 else 1)))].append(B.air_block if not item else item.get_object())
             i += 1
 
         if len(crafting_ingredients) > 0:
@@ -1204,13 +1204,16 @@ def resize_button_image(image, old_width, new_width):
     atlas.add(image.get_region(image.width - new_width // 2, 0, new_width // 2, image.height).image_data)
     return atlas.texture.image_data
 
-button_image, button_highlighted, button_disabled = init_button_image()
-background_image = load_image('resources', 'textures', 'main_menu_background.png')
-backdrop_images = []
-rnd_backdrops = ('main_menu_background.png', 'main_menu_background_2.png', 'main_menu_background_3.png',
-'main_menu_background_4.png', 'main_menu_background_5.png', 'main_menu_background_6.png')
+@G.initializer
+def _init(M):
+    M.button_image, button_highlighted, button_disabled = init_button_image()
+    M.background_image = load_image('resources', 'textures', 'main_menu_background.png')
+    M.backdrop_images = []
+    M.rnd_backdrops = ('main_menu_background.png', 'main_menu_background_2.png', 'main_menu_background_3.png',
+        'main_menu_background_4.png', 'main_menu_background_5.png', 'main_menu_background_6.png')
 
-for backdrop in rnd_backdrops:
-    backdrop_images.append(load_image('resources', 'textures', backdrop))
-    
-backdrop = random.choice(backdrop_images)
+    for backdrop in M.rnd_backdrops:
+        M.backdrop_images.append(load_image('resources', 'textures', backdrop))
+
+    M.backdrop = random.choice(backdrop_images)
+

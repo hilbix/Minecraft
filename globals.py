@@ -4,6 +4,8 @@ Global variables.
 WARNING: Never use `from globals import *`!
 Since these global variables are modified during runtime, using `import *`
 would lead to unpredictable consequences.
+
+This now is true for all modules which use decorator @G.initializer
 """
 
 # Imports, sorted alphabetically.
@@ -14,6 +16,7 @@ import argparse
 import getpass
 from math import pi
 import os
+import sys
 
 # Third-party packages
 import pyglet
@@ -352,3 +355,47 @@ def initialize_config():
     save_config()
 
 initialize_config()
+
+# Delay some inits until the graphics context is fully set up
+# Also only call it once
+
+__initializers__ = []
+def initializer(f):
+    '''
+        Delayed initialization of a module.  Protoype:
+        @G.initializer
+        def _init(M):
+          M.var = initvalue
+          ..
+        Makes the _init() function a singleton and calls it with module object M,
+        such that all the gazillion of variables in such inits need not be declared "global"
+        which would make the code very incomfortable and extremely difficult to maintain.
+	(read: The requirement of "global" is a violation to the DRY principle.)
+    '''
+    print "def init "+f.__module__+"."+f.__name__
+    ref = [f]
+    def once():
+        if ref:
+            f = ref[0]
+            print "run init "+f.__module__+"."+f.__name__
+            del ref[0]
+            f(sys.modules[f.__module__])
+    __initializers__.append(once)
+    return once
+
+def delayed_inits():
+    '''
+        Calls all the delayed initializers in sequence.
+        This way an imported module's initializer will be run first
+        before the own's modules inializer.
+        Must run right after the graphics context is established.
+        Tests:
+            export PYGLET_SHADOW_WINDOW=0
+            ./main.py
+        shall not result in:
+                if gl.current_context._workaround_unpack_row_length:
+            AttributeError: 'NoneType' object has no attribute '_workaround_unpack_row_length'
+    '''
+    for i in initalizers:
+        i()
+
