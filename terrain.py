@@ -11,7 +11,7 @@ import random
 
 # Third-party packages
 from perlin import SimplexNoise
-import noise as S
+from noise import PerlinNoise
 
 # Modules from this project
 import blocks as B
@@ -128,12 +128,12 @@ class TerrainGenerator(TerrainGeneratorBase):
                 first_block = -1
                 for y in range(CHUNK_Y_SIZE - 1, 0, -1):
                     if y == 0:
-                        c.set_block(x, y, z, bed_block)
+                        c.set_block(x, y, z, B.bed_block)
                         break
 
                     # 32: sea level
                     if 0 < y <= 32:
-                        c.set_block(x, y, z, water_block)
+                        c.set_block(x, y, z, B.water_block)
 
                     den = d_map[x][y][z]
 
@@ -144,7 +144,7 @@ class TerrainGenerator(TerrainGeneratorBase):
                         if self.cave_density(c.world_block_xpos(x), y, c.world_block_zpos(z)) > -0.7:
                             c = self.gen_outer_layer(x, y, z, first_block, c, biome_type)
                         else:
-                            c.set_block(x, y, z, air_block)
+                            c.set_block(x, y, z, B.air_block)
 
                         continue
                     elif den >= 32:
@@ -155,7 +155,7 @@ class TerrainGenerator(TerrainGeneratorBase):
                         if self.cave_density(c.world_block_xpos(x), y, c.world_block_zpos(z)) > -0.6:
                             c = self.gen_inner_layer(x, y, z, c)
                         else:
-                            c.set_block(x, y, z, air_block)
+                            c.set_block(x, y, z, B.air_block)
 
                         continue
 
@@ -164,7 +164,7 @@ class TerrainGenerator(TerrainGeneratorBase):
 
     def gen_inner_layer(self, x, y, z, c):
         # Mineral generation should be here also
-        c.set_block(x, y, z, stone_block)
+        c.set_block(x, y, z, B.stone_block)
         return c
 
     def gen_outer_layer(self, x, y, z, first_block, c, biome_type):
@@ -173,25 +173,25 @@ class TerrainGenerator(TerrainGeneratorBase):
 
         if biome_type == G.PLAINS or biome_type == G.MOUNTAINS or biome_type == G.FOREST:
             if 28 <= y <= 34:
-                c.set_block(x, y, z, sand_block)
+                c.set_block(x, y, z, B.sand_block)
             elif depth == 0 and 32 < y < 128:
-                c.set_block(x, y, z, grass_block)
+                c.set_block(x, y, z, B.grass_block)
             elif depth > 32: 
-                c.set_block(x, y, z, stone_block)
+                c.set_block(x, y, z, B.stone_block)
             else:
-                c.set_block(x, y, z, dirt_block)
+                c.set_block(x, y, z, B.dirt_block)
         elif biome_type == G.SNOW:
             if depth == 0 and y >= 32:
-                    c.set_block(x, y, z, snow_block)
+                    c.set_block(x, y, z, B.snow_block)
             elif depth > 32:
-                c.set_block(x, y, z, stone_block)
+                c.set_block(x, y, z, B.stone_block)
             else:
-                c.set_block(x, y, z, dirt_block)
+                c.set_block(x, y, z, B.dirt_block)
         elif biome_type == G.DESERT:
             if depth > 8: 
-                c.set_block(x, y, z, stone_block)
+                c.set_block(x, y, z, B.stone_block)
             else:
-                c.set_block(x, y, z, sand_block)
+                c.set_block(x, y, z, B.sand_block)
 
         return c
 
@@ -487,7 +487,7 @@ class TerrainGeneratorSimple(TerrainGeneratorBase):
                                 world.generate_vegetation((x, y + 1, z),
                                                     choose(veget_blocks))
 
-                            if main_block == sand_block:
+                            if main_block == B.sand_block:
                                 underground_blocks = (
                                     B.sand_block, B.sand_block, B.sandstone_block)
                             elif main_block == B.stone_block:

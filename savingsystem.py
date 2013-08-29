@@ -32,6 +32,8 @@ structvecBB = struct.Struct("hhhBB")
 null2 = struct.pack("xx") #Two \0's
 null1024 = null2*512      #1024 \0's
 
+air = None	# for cython
+
 @G.initializer
 def _init(M):
     M.air = G.BLOCKS_DIR[(0,0)]

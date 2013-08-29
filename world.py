@@ -28,7 +28,7 @@ class World(dict):
     spreading_mutations = {}
 
     def __init__(self):
-	self.spreading_mutations[B.dirt_block] = B.grass_block
+        self.spreading_mutations[B.dirt_block] = B.grass_block
 
         super(World, self).__init__()
 

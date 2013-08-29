@@ -54,9 +54,9 @@ class Tree(object):
     trunk_height_range = 4, 8
 
     def __init__(self, trunk_block=None, leaf_block=None, trunk_height_range=None, grows_on=None):
-	self.trunk_block = trunk_block
-	self.leaf_block = leaf_block
-	self.trunk_height_range = trunk_height_range or (4, 8)
+        self.trunk_block = trunk_block
+        self.leaf_block = leaf_block
+        self.trunk_height_range = trunk_height_range or (4, 8)
         self.grows_on = grows_on or (B.grass_block, B.dirt_block, B.snowgrass_block)
 
     def add_to_world(self, world, position, sync=False):
@@ -101,72 +101,72 @@ class Tree(object):
 
 class WaterMelon_(SmallPlant):
     def __init__(self):
-	super(WaterMelon_, self).__init__(block=B.melon_block, grows_on=(B.grass_block, B.dirt_block, B.snowgrass_block))
+        super(WaterMelon_, self).__init__(block=B.melon_block, grows_on=(B.grass_block, B.dirt_block, B.snowgrass_block))
 
 class Pumpkin_(SmallPlant):
     def __init__(self):
-	super(Pumpkin_, self).__init__(block=B.pumpkin_block, grows_on=(B.grass_block, B.dirt_block, B.snowgrass_block))
+        super(Pumpkin_, self).__init__(block=B.pumpkin_block, grows_on=(B.grass_block, B.dirt_block, B.snowgrass_block))
 
 class YFlowers_(SmallPlant):
     def __init__(self):
-	super(YFlowers_, self).__init__(block=B.yflowers_block)
+        super(YFlowers_, self).__init__(block=B.yflowers_block)
 
 class Potato_(SmallPlant):
     def __init__(self):
-	super(Potato_, self).__init__(block=B.potato_block)
+        super(Potato_, self).__init__(block=B.potato_block)
 
 class Carrot_(SmallPlant):
     def __init__(self):
-	super(Carrot_, self).__init__(block=B.carrot_block)
+        super(Carrot_, self).__init__(block=B.carrot_block)
 
 class Rose_(SmallPlant):
     def __init__(self):
-	super(Rose_, self).__init__(block=B.rose_block)
+        super(Rose_, self).__init__(block=B.rose_block)
 
 
 class TallGrass_(SmallPlant):
     def __init__(self):
-	super(TallGrass_, self).__init__(block=B.fern_block)
+        super(TallGrass_, self).__init__(block=B.fern_block)
 
 class TallGrass0_(SmallPlant):
     def __init__(self):
-	super(TallGrass0_, self).__init__(block=B.wildgrass0_block, grows_on=(B.grass_block, B.dirt_block))
+        super(TallGrass0_, self).__init__(block=B.wildgrass0_block, grows_on=(B.grass_block, B.dirt_block))
 
 class TallGrass1_(SmallPlant):
     def __init__(self):
-	super(TallGrass1_, self).__init__(block=B.wildgrass1_block, grows_on=(B.grass_block, B.dirt_block))
+        super(TallGrass1_, self).__init__(block=B.wildgrass1_block, grows_on=(B.grass_block, B.dirt_block))
 
 class TallGrass2_(SmallPlant):
     def __init__(self):
-	super(TallGrass2_, self).__init__(block=B.wildgrass2_block, grows_on=(B.grass_block, B.dirt_block))
+        super(TallGrass2_, self).__init__(block=B.wildgrass2_block, grows_on=(B.grass_block, B.dirt_block))
 
 class TallGrass3_(SmallPlant):
     def __init__(self):
-	super(TallGrass3_, self).__init__(block=B.wildgrass3_block, grows_on=(B.grass_block, B.dirt_block))
+        super(TallGrass3_, self).__init__(block=B.wildgrass3_block, grows_on=(B.grass_block, B.dirt_block))
 
 class TallGrass4_(SmallPlant):
     def __init__(self):
-	super(TallGrass4_, self).__init__(block=B.wildgrass4_block, grows_on=(B.grass_block, B.dirt_block))
+        super(TallGrass4_, self).__init__(block=B.wildgrass4_block, grows_on=(B.grass_block, B.dirt_block))
 
 class TallGrass5_(SmallPlant):
     def __init__(self):
-	super(TallGrass5_, self).__init__(block=B.wildgrass5_block, grows_on=(B.grass_block, B.dirt_block))
+        super(TallGrass5_, self).__init__(block=B.wildgrass5_block, grows_on=(B.grass_block, B.dirt_block))
 
 class TallGrass6_(SmallPlant):
     def __init__(self):
-	super(TallGrass6_, self).__init__(block=B.wildgrass6_block, grows_on=(B.grass_block, B.dirt_block))
+        super(TallGrass6_, self).__init__(block=B.wildgrass6_block, grows_on=(B.grass_block, B.dirt_block))
 
 class TallGrass7_(SmallPlant):
     def __init__(self):
-	super(TallGrass7_, self).__init__(block=B.wildgrass7_block, grows_on=(B.grass_block, B.dirt_block))
+        super(TallGrass7_, self).__init__(block=B.wildgrass7_block, grows_on=(B.grass_block, B.dirt_block))
 
 class DeadBush_(SmallPlant):
     def __init__(self):
-	super(DeadBush_, self).__init__(block=B.deadbush_block, grows_on=(B.sand_block, B.sandstone_block))
+        super(DeadBush_, self).__init__(block=B.deadbush_block, grows_on=(B.sand_block, B.sandstone_block))
 
 class DesertGrass_(SmallPlant):
     def __init__(self):
-	super(DesertGrass_, self).__init__(block=B.desertgrass_block, grows_on=(B.sand_block, B.sandstone_block))
+        super(DesertGrass_, self).__init__(block=B.desertgrass_block, grows_on=(B.sand_block, B.sandstone_block))
 
 #
 # Tall plants
@@ -177,21 +177,21 @@ class Cactus_(Trunk):
         self.block = B.cactus_block
         self.height_range = 1, 4
         self.grows_on = (B.sand_block, B.sandstone_block)
-	super(Cactus_, self).__init__(position)
+        super(Cactus_, self).__init__(position)
 
 class TallCactus_(Trunk):
     def __init__(self, position=(0,0,0)):
         self.block = B.tallcactus_block
         self.height_range = 1, 10
         self.grows_on = (B.sand_block, B.sandstone_block)
-	super(TallCactus_, self).__init__(position)
+        super(TallCactus_, self).__init__(position)
 
 class Reed_(Trunk):
     def __init__(self, position=(0,0,0)):
         self.block = B.reed_block
         self.height_range = 1, 4
         self.grows_on = (B.sand_block, B.dirt_block)
-	super(Reed_, self).__init__(position)
+        super(Reed_, self).__init__(position)
 
 #
 # Trees
@@ -199,15 +199,15 @@ class Reed_(Trunk):
 
 class OakTree_(Tree):
     def __init__(self):
-	super(OakTree_, self).__init__(trunk_block=B.oakwood_block, leaf_block=B.oakleaf_block)
+        super(OakTree_, self).__init__(trunk_block=B.oakwood_block, leaf_block=B.oakleaf_block)
 
 class JungleTree_(Tree):
     def __init__(self):
-	super(JungleTree_, self).__init__(trunk_block=B.junglewood_block, leaf_block=B.jungleleaf_block, trunk_height_range=(8, 12))
+        super(JungleTree_, self).__init__(trunk_block=B.junglewood_block, leaf_block=B.jungleleaf_block, trunk_height_range=(8, 12))
 
 class BirchTree_(Tree):
     def __init__(self):
-	super(BirchTree_, self).__init__(trunk_block=B.birchwood_block, leaf_block=B.birchleaf_block, trunk_height_range=(5, 7))
+        super(BirchTree_, self).__init__(trunk_block=B.birchwood_block, leaf_block=B.birchleaf_block, trunk_height_range=(5, 7))
 
 @G.initializer
 def _init(M):

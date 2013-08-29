@@ -207,7 +207,7 @@ class WheatSeedItem(SeedItem):
     name = "Seed"
 
     def __init__(self):
-	self.block_type = B.wheat_crop_block
+        self.block_type = B.wheat_crop_block
         self.soil_type = B.farm_block
         super(WheatSeedItem, self).__init__()
 

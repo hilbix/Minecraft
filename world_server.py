@@ -22,10 +22,10 @@ class WorldServer(dict):
     spreading_mutations = {}
 
     def __init__(self, server):
-	self.spreading_mutations[B.dirt_block] = B.grass_block
+        self.spreading_mutations[B.dirt_block] = B.grass_block
         super(WorldServer, self).__init__()
         import savingsystem #This module doesn't like being imported at modulescope
-	# XXX TODO XXX Is this still the case?
+        # XXX TODO XXX Is this still the case?
         self.savingsystem = savingsystem
         if not os.path.lexists(os.path.join(G.game_dir, "world", "players")):
             os.makedirs(os.path.join(G.game_dir, "world", "players"))

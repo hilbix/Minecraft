@@ -7,7 +7,7 @@ import sys
 # Nothing for now...
 
 # Modules from this project
-from items import ItemStack
+from items import ItemStack, get_item
 
 
 __all__ = (
