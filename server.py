@@ -223,7 +223,10 @@ def start_server(internal=False):
     if internal:
         server = Server(("localhost", 1486), ThreadedTCPRequestHandler)
     else:
-        localip = [ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][0]
+        try:
+          localip = [ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][0]
+        except:
+          localip = '127.0.0.1';
         server = Server((localip, 1486), ThreadedTCPRequestHandler)
     G.SERVER = server
     server_thread = threading.Thread(target=server.serve_forever)
@@ -265,8 +268,12 @@ if __name__ == '__main__':
             print helptext
         elif cmd == "save":
             print "Saving..."
-            save_world(server, "world")
-            print "Done saving"
+            try:
+              save_world(server, "world")
+            except:
+              print "Error saving"
+            else:
+              print "Done saving"
         elif cmd == "stop":
             server._stop.set()
             G.main_timer.stop()
