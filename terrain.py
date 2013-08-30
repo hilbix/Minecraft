@@ -473,7 +473,7 @@ class TerrainGeneratorSimple(TerrainGeneratorBase):
                                     main_block = B.grass_block
                                 else:
                                     main_block = B.sand_block
-                            init_block((x, y, z), B.main_block)
+                            init_block((x, y, z), main_block)
 
                             veget_choice = rand_random()
                             veget_blocks = None
