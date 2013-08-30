@@ -73,7 +73,7 @@ def save_world(server, world):
     #save = (4,window.player, window.time_of_day, G.SEED)
     #pickle.dump(save, open(os.path.join(game_dir, world, "save.pkl"), "wb"))
     for player in server.players:
-        save_player(player, world)
+        save_player(server.players[player], world)
 
     save_blocks(server.world, world)
 

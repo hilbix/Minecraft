@@ -4,6 +4,7 @@ import socket
 import struct
 import time
 import timer
+import logging
 
 try:  # Python 3
     import socketserver
@@ -272,8 +273,8 @@ if __name__ == '__main__':
             print "Saving..."
             try:
               save_world(server, "world")
-            except:
-              print "Error saving"
+            except Exception:
+              logging.exception("Error saving")
             else:
               print "Done saving"
         elif cmd == "stop":
