@@ -19,7 +19,7 @@ from pyglet.gl import *
 from pyglet import image
 
 # Modules from this project
-from blocks import Block
+import blocks as B
 from cameras import Camera3D
 from client import PacketReceiver
 import globals as G
@@ -275,7 +275,7 @@ class GameController(Controller):
 
         self.player_ids = {}  # Dict of all players this session, indexes are their ID's [0: first Player on server,]
 
-        self.focus_block = Block(width=1.05, height=1.05)
+        self.focus_block = B.Block(width=1.05, height=1.05)
         self.earth = vec(0.8, 0.8, 0.8, 1.0)
         self.white = vec(1.0, 1.0, 1.0, 1.0)
         self.ambient = vec(1.0, 1.0, 1.0, 1.0)
@@ -556,11 +556,11 @@ class GameController(Controller):
                               / hit_block.hardness)  # range: [0, CRACK_LEVELS[
             if crack_level >= B.CRACK_LEVELS:
                 return
-            texture_data = crack_textures.texture_data[crack_level]
+            texture_data = B.crack_textures.texture_data[crack_level]
             count = len(texture_data) / 2
             if self.crack:
                 self.crack.delete()
-            self.crack = self.crack_batch.add(count, GL_QUADS, crack_textures.group,
+            self.crack = self.crack_batch.add(count, GL_QUADS, B.crack_textures.group,
                                               ('v3f/static', vertex_data),
                                               ('t2f/static', texture_data))
 
