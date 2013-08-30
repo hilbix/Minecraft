@@ -42,11 +42,11 @@ class Trunk(object):
         for dy in range(self.height):
             self.blocks[(x, y + dy, z)] = self.block
 
-##    @classmethod
-#    def add_to_world(cls, world, position, sync=False):
-#        trunk = cls(position)
-#        for item in trunk.blocks.items():
-#            world.add_block(*item, sync=sync)
+    @classmethod
+    def add_to_world(cls, world, position, sync=False):
+        trunk = cls(position)
+        for item in trunk.blocks.items():
+            world.add_block(*item, sync=sync)
 
 class Tree(object):
     trunk_block = None

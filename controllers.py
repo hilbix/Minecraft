@@ -552,9 +552,9 @@ class GameController(Controller):
 
     def show_cracks(self, hit_block, vertex_data):
         if self.block_damage:  # also show the cracks
-            crack_level = int(CRACK_LEVELS * self.block_damage
+            crack_level = int(B.CRACK_LEVELS * self.block_damage
                               / hit_block.hardness)  # range: [0, CRACK_LEVELS[
-            if crack_level >= CRACK_LEVELS:
+            if crack_level >= B.CRACK_LEVELS:
                 return
             texture_data = crack_textures.texture_data[crack_level]
             count = len(texture_data) / 2
